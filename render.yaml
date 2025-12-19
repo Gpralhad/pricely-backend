@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: pricely-backend
+    env: docker
+    plan: free # or starter
+    envVars:
+      - key: DATABASE_URL
+        sync: false # You will set this manually in the dashboard for security
+      - key: PYTHON_VERSION
+        value: 3.10.0

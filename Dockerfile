@@ -1,19 +1,15 @@
-# Use the official Python image
-FROM python:3.9-slim
+# Use the same base image you used locally
+FROM python:3.10-slim
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the requirements file and install dependencies
-# (Make sure to include fastapi, uvicorn, and sqlalchemy in requirements.txt)
+# Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the entire project folder into the container
+# Copy your source code
 COPY . .
 
-# Set the PYTHONPATH so the app can find the 'common' module
-ENV PYTHONPATH=/app
-
-# Command to run the discovery service
-CMD ["uvicorn", "discovery_service.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# IMPORTANT: Render sets a $PORT environment variable. 
+# We must bind uvicorn to it.
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
