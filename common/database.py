@@ -1,28 +1,10 @@
-# import datetime
-# from sqlalchemy import create_engine
-# from sqlalchemy.ext.declarative import declarative_base
-# from sqlalchemy.orm import sessionmaker
-
-# # Replace with your actual connection string from Supabase
-# # Format: postgresql://postgres:[PASSWORD]@[HOST]:6543/postgres?pgbouncer=true
-# #DATABASE_URL = "postgresql://postgres:Vedant786!@db.dxqseiyhjkjfxhzgdixc.supabase.co:5432/postgres?pgbouncer=true"
-# # 1. URL-encode the '!' in your password as '%21'
-# # 2. Use port 6543 for the transaction pooler
-# # 3. Explicitly add +psycopg2 and disable prepared statements
-# DATABASE_URL = "postgresql+psycopg2://postgres:Vedant786%21@db.dxqseiyhjkjfxhzgdixc.supabase.co:6543/postgres?pgbouncer=true&prepared_statements=false"
-
-# # Database engine and session setup
-# engine = create_engine(DATABASE_URL)
-# SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 import os
 from urllib.parse import quote_plus
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# 1. Properly encode your password (handles the '!' character)
-password = quote_plus("Vedant786!")
+
 
 # 2. Updated URL: 
 # - Removed ?pgbouncer=true
@@ -30,8 +12,14 @@ password = quote_plus("Vedant786!")
 # - Use +psycopg2 to be explicit
 #DATABASE_URL = f"postgresql+psycopg2://postgres:{password}@db.dxqseiyhjkjfxhzgdixc.supabase.co:6543/postgres"
 
-DATABASE_URL = f"postgresql://postgres.dxqseiyhjkjfxhzgdixc:{password}@aws-1-ap-northeast-2.pooler.supabase.com:6543/postgres"
+#DATABASE_URL = f"postgresql://postgres.dxqseiyhjkjfxhzgdixc:{password}@aws-1-ap-northeast-2.pooler.supabase.com:6543/postgres"
 
+
+# If you are using the manual string construction:
+user = os.getenv("DB_USER")
+password = quote_plus(os.getenv("DB_PASSWORD"))
+host = os.getenv("DB_HOST")
+DATABASE_URL = f"postgresql://postgres.{user}:{password}@{host}:6543/postgres"
 
 
 # 3. Create engine with "prepared statements" disabled
