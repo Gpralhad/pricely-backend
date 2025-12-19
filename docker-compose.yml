@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  discovery-service:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:Vedant786!@db.dxqseiyhjkjfxhzgdixc.supabase.co:5432/postgres?pgbouncer=true #
+    restart: always
